@@ -1,6 +1,73 @@
 html, body {
-	margin: auto;
+	width: 100%;
+	height: 100%;
+	background: rgb(236,179,0);
 	text-align: center;
+	-webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+
+/* 标题效果 */
+.head {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.head h1 {
+	font-size: 100px;
+	letter-spacing: 10px;
+	color: rgb(240, 240, 69);
+	position: relative;
+}
+.head h1::after {
+	content: attr(data-spotlight);
+	position: absolute;
+	top: 0;
+	left: 0;
+	color: blueviolet;
+	-webkit-clip-path: ellipse(100px 100px at 0% 50%);
+	clip-path: ellipse(100px 100px at 0% 50%);
+	animation: spotLight 5s infinite;
+}
+@keyframes spotLight {
+	0%{
+		-webkit-clip-path: ellipse(100px 100px at 0% 50%);
+		clip-path: ellipse(100px 100px at 0% 50%);
+	}
+
+	50% {
+		-webkit-clip-path: ellipse(100px 100px at 100% 50%);
+		clip-path: ellipse(100px 100px at 100% 50%);
+	}
+
+	100%{
+		-webkit-clip-path: ellipse(100px 100px at 0% 50%);
+		clip-path: ellipse(100px 100px at 0% 50%);
+	}
+}
+
+/* 游戏样式 */
+.game {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.desc {
+	flex: 1 1 auto;
+}
+
+.game-container {
+	flex: 1 1 auto;
+}
+
+.operation {
+	text-align: left;
+	margin-left: 25%;
+	padding: 5%;
 }
 
 #map-container {

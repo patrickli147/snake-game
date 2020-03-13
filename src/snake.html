@@ -6,28 +6,43 @@
 
 </head>
 <body>
-	<header>
-		<h1>贪吃蛇</h1>
-		<h2>操作说明</h2>
-		<p>Start：开始游戏。w s a d控制上下左右。Pause：暂停,Resume：继续游戏，Restart：重新开始</p>
-		<p>Fast：加快速度，Slow：减慢速度，Move：控制蛇前进一步（调试用）</p>
-	</header>
-	<input type="text" value="end" readonly id="game-state">
-	<input type="text" value="0" readonly id="score">
-	<div class="game-controller">
-		<button id="start-button">Start</button>
-		<button id="move-button">Move</button>
+	<!-- 头部 开始 -->
+	<div class="head">
+		<h1 data-spotlight="Retro Snaker">Retro Snaker</h1>
 	</div>
-	<div class="speed-controller">
-		<button id="slow-button">slow</button>
-		<input type="range" min="0" max="950" step="50" id="speed-input">
-		<button id="fast-button">fast</button>
-	</div>
-	<div id="map-container">
-		<div class="snake-container" id="snake">
-			
+	<!-- 头部 结束 -->
+	
+	<!-- 游戏 开始 -->
+	<div class="game">
+		<div class="game-container">
+			<div id="map-container">
+				<div class="snake-container" id="snake">
+					
+				</div>
+			</div>
 		</div>
+		<div class="desc">
+			<input type="text" value="end" readonly id="game-state">
+			<input type="text" value="0" readonly id="score">
+			<div class="game-controller">
+				<button id="start-button">Start</button>
+				<button id="move-button">Move</button>
+			</div>
+			<div class="speed-controller">
+				<button id="slow-button">slow</button>
+				<input type="range" min="0" max="950" step="50" id="speed-input">
+				<button id="fast-button">fast</button>
+			</div>
+			<div class="operation">
+				<div>操作说明</div>
+				<div>Start：开始游戏。w s a d控制上下左右。</div>
+				<div>Pause：暂停,Resume：继续游戏，Restart：重新开始</div>
+				<div>Fast：加快速度，Slow：减慢速度，Move：控制蛇前进一步（调试用）</div>
+			</div>
+		</div>
+
 	</div>
+	<!-- 游戏 结束 -->
 	<script src="./snake.js"></script>
 </body>
 </html>
