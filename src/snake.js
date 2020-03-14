@@ -8,6 +8,8 @@ window.onload = function() {
 function init() {
 	var snake = document.getElementById('snake');
 	snake.setAttribute("direction", "up");
+	var score = document.getElementById("score");
+	score.setAttribute("value", 0);
 	var snakeHead = document.createElement('div');
 	var text = document.createTextNode("H");
 	snakeHead.appendChild(text);
@@ -32,9 +34,6 @@ function init() {
 function addListeners() {
 	var startButton = document.getElementById("start-button");
 	startButton.addEventListener("click", start);
-	
-	var moveButton = document.getElementById("move-button");
-	moveButton.addEventListener("click",move);
 
 	var slowButton = document.getElementById("slow-button");
 	slowButton.addEventListener("click", slow);
@@ -42,7 +41,68 @@ function addListeners() {
 	var fastButton = document.getElementById("fast-button");
 	fastButton.addEventListener("click", fast);
 
+	var keyHelper = document.getElementById("key-helper");
+	keyHelper.addEventListener("click", showVisualKey);
+
+	var mapContainer = document.getElementById("map-container");
+	mapContainer.addEventListener("click", getDirection);
+
 	document.addEventListener("keydown", changeDirection);
+}
+
+/* get direction according to the position user clicked */
+function getDirection() {
+	//only the map-container can handle
+	if (event.target.id && event.target.id === "map-container") {
+		//get the position user clicked
+		var userX = event.offsetX;
+		var userY = event.offsetY;
+
+		// get the position of snake head
+		var snakeHead = document.getElementsByClassName("snake head")[0];
+		var snakeHeadX = parseInt(snakeHead.style.left);
+		var snakeHeadY = parseInt(snakeHead.style.top);
+
+		// get the current direction of snake
+		var snake = document.getElementById("snake");
+		var direction = snake.getAttribute("direction");
+		
+		//when direction is 'up' or 'down', you can only change direction to 'left' or 'right'
+		if (direction === 'up' || direction === 'down') {
+			snake.setAttribute("direction", (userX > snakeHeadX ? 'right' : 'left'));
+		}
+		else {
+			snake.setAttribute("direction", (userY > snakeHeadY ? 'down' : 'up'));
+		}
+	} 
+}
+
+/* show the visual keys */
+function showVisualKey() {
+	var keyHelper = document.getElementById("key-helper");
+	keyHelper.setAttribute("class", "key-helper-hidden");
+	keyHelper.removeEventListener("click", showVisualKey);
+
+	// show visual keys
+	// 需倒序改变类名 （类名改变后数组长度会改变）
+	var visualKeys = document.getElementsByClassName("visual-key-hidden");
+	
+	for (var i = visualKeys.length - 1; i >= 0; i --) {
+		visualKeys[i].addEventListener("click", function(){
+			//console.log(this.getAttribute("id"));
+			var keyDownEvent = new KeyboardEvent("keydown", {
+				key:this.getAttribute("id")
+			});
+			//console.log(typeof keyDownEvent);
+			//keyDownEvent.key = this.getAttribute("id");
+			// var initMethod = typeof keyDownEvent.initKeyboardEvent !== 'undefined'?'initKeyboardEvent':'initKeyEvent';
+			// console.log(keyDownEvent);
+			// keyDownEvent[initMethod]("keydown", true, true, window, this.getAttribute("id"), 0);
+			document.dispatchEvent(keyDownEvent);
+			//event.keyCode = parseInt(this.getAttribute("id"));
+		});
+		visualKeys[i].setAttribute("class", "visual-key");
+	}
 }
 
 /* control the game */
@@ -175,7 +235,6 @@ function setDisplay() {
 			}
 			else {
 				(flexDirection === "row") ? flexDirection = "column" : flexDirection = "row";
-				console.log(flexDirection);
 				i = j;
 				break;
 			}
@@ -186,27 +245,26 @@ function setDisplay() {
 /* change the direction according to the player the command */
 function changeDirection() {
 	var snake = document.getElementById("snake");
-	var keyCode = event.keyCode;
-	//console.log(keyCode);
-	if (keyCode == 87) {
+	//console.log(event.key);
+	if (event.key == 'w' || event.key == 'W') {
 		if (snake.getAttribute("direction") == "down" || snake.getAttribute("direction") == "up") {
 			return;
 		}
 		snake.setAttribute("direction", "up");
 	}
-	else if (keyCode == 83) {
+	else if (event.key == 's' || event.key == 'S') {
 		if (snake.getAttribute("direction") == "down" || snake.getAttribute("direction") == "up") {
 			return;
 		}
 		snake.setAttribute("direction", "down");
 	}
-	else if (keyCode == 65) {
+	else if (event.key == 'a' || event.key == 'A') {
 		if (snake.getAttribute("direction") == "left" || snake.getAttribute("direction") == "right") {
 			return;
 		}
 		snake.setAttribute("direction", "left");
 	}
-	else if (keyCode == 68) {
+	else if (event.key == 'd' || event.key == 'D') {
 		if (snake.getAttribute("direction") == "left" || snake.getAttribute("direction") == "right") {
 			return;
 		}
@@ -224,7 +282,7 @@ function checkGameState() {
 	var snakeNodes = document.getElementsByClassName("snake");
 	var snake = document.getElementById("snake");
 	var head = snakeNodes[0];
-	console.log(head.style.left)
+	//console.log(head.style.left)
 	for (var i = 1; i < snakeNodes.length; i ++) {
 		if (snakeNodes[i].style.left === head.style.left && snakeNodes[i].style.top === head.style.top) {
 			end();
@@ -249,7 +307,7 @@ function checkGameState() {
 
 /* game ends because of the rules */
 function end() {
-	console.log("end");
+	//console.log("end");
 	var currentGameStateInput = document.getElementById("game-state");
 	currentGameStateInput.setAttribute("value", "end");
 	var startButton = document.getElementById("start-button");

@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>Retro Snaker</title>
 	<link rel="stylesheet" href="./snake.css">
 
 </head>
@@ -26,7 +26,6 @@
 			<input type="text" value="0" readonly id="score">
 			<div class="game-controller">
 				<button id="start-button">Start</button>
-				<button id="move-button">Move</button>
 			</div>
 			<div class="speed-controller">
 				<button id="slow-button">slow</button>
@@ -35,14 +34,33 @@
 			</div>
 			<div class="operation">
 				<div>操作说明</div>
-				<div>Start：开始游戏。w s a d控制上下左右。</div>
+				<div>Start：开始游戏</div>
 				<div>Pause：暂停,Resume：继续游戏，Restart：重新开始</div>
-				<div>Fast：加快速度，Slow：减慢速度，Move：控制蛇前进一步（调试用）</div>
+				<div>Fast：加快速度，Slow：减慢速度（可拖动进度条调整）</div>
+				<div>点击空白处控制方向</div>
+				<div>键盘w s a d控制方向</div>
 			</div>
 		</div>
 
 	</div>
 	<!-- 游戏 结束 -->
+
+	<!-- 辅助键盘 开始 -->
+	<div class="assistant">
+		<button id="key-helper">无键盘？</button>
+		<div class="keys">
+			<div class="up">
+				<button class="visual-key-hidden" id="w">w</button>
+			</div>
+			<div class="bottom">
+				<button class="visual-key-hidden" id="a">a</button>
+				<button class="visual-key-hidden" id="s">s</button>
+				<button class="visual-key-hidden" id="d">d</button>
+			</div>
+		</div>
+	</div>
+	<!-- 辅助键盘 结束 -->
+
 	<script src="./snake.js"></script>
 </body>
 </html>

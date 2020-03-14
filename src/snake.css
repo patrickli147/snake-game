@@ -74,7 +74,7 @@ html, body {
 	width: 500px;
 	height: 500px;
 	margin: auto;
-	border: black solid 2px;
+	border: black solid 3.5px;
 	position: relative;
 	margin-bottom: 100px;
 }
@@ -136,3 +136,14 @@ button:hover {
 .speed-controller {
 	display: inline;
 }
+
+
+/* 辅助键盘 */
+.key-helper-hidden {
+	display: none;
+}
+
+.visual-key-hidden{
+	display: none;
+}
+
