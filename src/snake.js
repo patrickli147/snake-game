@@ -211,14 +211,14 @@ function move() {
 	checkGameState();
 }
 
-/* figure out how each part of the snake should move */
+/* set the display of the snake bogy */
 function setDisplay() {
 	var snakeNodes = document.getElementsByClassName("snake");
 	if (snakeNodes.length == 1) {
 		return;
 	}
 
-	/* check how to go */
+	/* set each snake body's flex direction */
 	var flexDirection = "";
 	if (snakeNodes[0].style.left == snakeNodes[1].style.left) {
 		flexDirection = "column";
@@ -231,10 +231,10 @@ function setDisplay() {
 	for (var i = 0; i < snakeNodes.length; i ++) {
 		for (var j = i + 1; j < snakeNodes.length; j ++) {
 			if (snakeNodes[i].style.left === snakeNodes[j].style.left || snakeNodes[i].style.top === snakeNodes[j].style.top) {
-				snakeNodes[j].style.flexDirection = flexDirection;
+				snakeNodes[j].style.flexDirection = snakeNodes[i].style.flexDirection;
 			}
 			else {
-				(flexDirection === "row") ? flexDirection = "column" : flexDirection = "row";
+				snakeNodes[j].style.flexDirection = (snakeNodes[i].style.flexDirection === "row") ? "column" : "row";
 				i = j;
 				break;
 			}
@@ -294,12 +294,39 @@ function checkGameState() {
 	var currentFood = document.getElementsByClassName("food")[0];
 	if (head.style.left == currentFood.style.left && head.style.top == currentFood.style.top) {
 		score();
+		// remove the food
 		currentFood.parentNode.removeChild(currentFood);
+		
+		// the node to follow
 		var toFollow = snake.lastChild;
+		// get the flex direction of the last snake node
+		var lastFlexDirection = toFollow.style.flexDirection;
+
 		var snakeBody = document.createElement('div');
 		snakeBody.setAttribute("class", "snake body");
-		snakeBody.style.top = (parseInt(toFollow.style.top) + 10) + "px";
-		snakeBody.style.left = toFollow.style.left;
+
+		// make a new node
+		if (lastFlexDirection == "column") {
+			if (parseInt(snakeNodes[snakeNodes.length - 2].style.top) === parseInt(toFollow.style.top) + 10) {
+				snakeBody.style.top = (parseInt(toFollow.style.top) - 10) + "px";
+			}
+			else {
+				snakeBody.style.top = (parseInt(toFollow.style.top) + 10) + "px";
+			}
+			snakeBody.style.left = toFollow.style.left;
+		}
+		else {
+			if (parseInt(snakeNodes[snakeNodes.length - 2].style.left) === parseInt(toFollow.style.left) + 10) {
+				snakeBody.style.left = (parseInt(toFollow.style.left) - 10) + "px";
+
+			}
+			else {
+				snakeBody.style.left = (parseInt(toFollow.style.left) + 10) + "px";
+			}
+			snakeBody.style.top = toFollow.style.top;
+		}
+
+		snakeBody.style.flexDirection = toFollow.style.flexDirection;
 		snake.appendChild(snakeBody);
 		makeFood();
 	}
@@ -312,6 +339,9 @@ function end() {
 	currentGameStateInput.setAttribute("value", "end");
 	var startButton = document.getElementById("start-button");
 	startButton.lastChild.nodeValue = "Restart";
+
+	var speedInput = document.getElementById("speed-input");
+	speedInput.value = (parseInt(speedInput.max) + parseInt(speedInput.min)) / 2;
 }
 
 /* fasten the speed of the snake */
